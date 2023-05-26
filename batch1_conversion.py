@@ -28,8 +28,6 @@ args = argparse.Namespace(
     name = 'voice Conversion',
     gpu = False,
     multi_gpu= False,
-    image_size=256,
-
     lr = 5e-5,
     b1 = 0.5,
     b2 = 0.999,
@@ -49,9 +47,9 @@ args = argparse.Namespace(
     interpolation_regularize = True,
     orthogonal_regularize = True,
 
-    log_interval = 100,
-    sample_interval = 100,
-    save_interval = 100,
+    log_interval = 1000,
+    sample_interval = 1000,
+    save_interval = 10000,
     selected_attributes = ['sad']
 )
 
@@ -99,18 +97,22 @@ gen.append(img0)
 #Generate하기
 with torch.no_grad():
     conversion = gan.G(img, attribute).detach()
-# gen[-1] = torch.cat([gen[-1], conversion.unsqueeze(1).cpu()], dim=1) #generate list에 쌓기
-# gen = torch.cat(gen)
-# # print(gen.size(0), gen.size(1), gen.size(2), gen.size(3), gen.size(4))
+gen[-1] = torch.cat([gen[-1], conversion.unsqueeze(1).cpu()], dim=1) #generate list에 쌓기
+gen = torch.cat(gen)
+# print(gen.size(0), gen.size(1), gen.size(2), gen.size(3), gen.size(4))
 
-# gen = gen.view(gen.size(0)*gen.size(1), gen.size(2), gen.size(3), gen.size(4))
-# gen2 = gen = gen.view(gen.size(2), gen.size(3), gen.size(4))
-conversion_test = inv_normalize(conversion)
-conversion_test = conversion_test.squeeze()
+gen = gen.view(gen.size(0)*gen.size(1), gen.size(2), gen.size(3), gen.size(4))
+conversion_test = make_grid(inv_normalize(conversion), nrow=1)
 conversion_test = conversion_test.cpu()
-print(conversion_test.size())
-np.save('C:/Users/ICT/Desktop/youda/AI_TeamRepo/test/test_4', conversion_test)
+print("사이즈: ",conversion_test.size())
+for i in range(conversion_test.size(0)):
+    testSet = np.split(conversion_test, 3)
+    print(f"{i}번째 사이즈: ", np.shape(testSet[i]))
+
+# np.save('C:/Users/ICT/Desktop/youda/AI_TeamRepo/test/test_4', conversion_test)
 
 #=============================numpy data 음성으로 변환하기=============================
 from inv_mel import npytomp4
-npytomp4(conversion_test)
+for i in range(conversion_test.size(0)):
+    npytomp4(npy=testSet[i], path=f"C:/Users/ICT/Desktop/youda/AI_TeamRepo/test/test_{i}.wav" )
+# npytomp4(conversion_test,path="C:/Users/ICT/Desktop/youda/AI_TeamRepo/test/test_1.wav")
