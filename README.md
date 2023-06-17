@@ -2,6 +2,8 @@
 ## 1. KoBERT 활용하여 문장에서 감정 뽑아내기
 KoBERT pt파일 : https://drive.google.com/drive/folders/1-ABwZnZv3Ozsvi1nZzndGJtTM98EdJNN?usp=share_link
 ## 2. SCE-TTS 활용하여 녹음한 사람 목소리로 TTS 진행
+SCE-TTS pt파일 :https://drive.google.com/file/d/1Nt0R-L1HsjgmdTpyhIjFvHZ8ibFOBBl9/view?usp=drive_link
+               :https://drive.google.com/file/d/1rEQUHxl-ZGaKTWQtxtr0JPIxpuoXtp5V/view?usp=drive_link
 ## 3. RelGAN 활용하여 음성에 감정변환
 RelGAN pt파일 : https://drive.google.com/drive/folders/1-2WrR2qSuEQUyP3kvU-0U1vXc5bpJ8MC?usp=share_link
 batch 1 version : batch_1_weight(두 개 모두 다)<br/>
